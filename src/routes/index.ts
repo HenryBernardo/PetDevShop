@@ -1,14 +1,25 @@
-import { Router } from "express";
-import * as PageController from '../controllers/pageController'
-import * as SearchController from '../controllers/searchController'
+import express from "express";
+import mustache from "mustache-express";
+import path from "path";
 
-const router = Router()
+const app = express();
 
-router.get('/', PageController.home);
-router.get('/dogs', PageController.dogs)
-router.get('/cats', PageController.cats)
-router.get('/fishes', PageController.fishes)
+// middlewares e rotas
+app.set("view engine", "mustache");
+app.set("views", path.join(__dirname, "views"));
+app.engine("mustache", mustache());
 
-router.get('/search', SearchController.search);
+app.use(express.static(path.join(__dirname, "../public")));
 
-export default router;
+// suas rotas
+app.get("/", (req, res) => {
+  res.render("home");
+});
+
+// exporta o app p/ vercel
+export default app;
+
+// se estiver rodando localmente, abre na porta
+if (process.env.NODE_ENV !== "production") {
+  app.listen(3000, () => console.log("Rodando na porta 3000 🚀"));
+}

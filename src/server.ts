@@ -1,24 +1,33 @@
-import express = require("express");
-import dotenv from 'dotenv';
-import mustache from 'mustache-express';
-import path from 'path';
-import mainRoutes from './routes/index'
+import express from "express";
+import dotenv from "dotenv";
+import mustache from "mustache-express";
+import path from "path";
+import mainRoutes from "./routes/index";
 
 dotenv.config();
 
-const server = express();
+const app = express();
 
-server.set('view engine', 'mustache');
-server.set('views', path.join(__dirname, 'views'));
-server.engine('mustache', mustache());
+app.set("view engine", "mustache");
+app.set("views", path.join(__dirname, "views"));
+app.engine("mustache", mustache());
 
-server.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, "../public")));
 
-//rotas
-server.use(mainRoutes)
+// rotas
+app.use(mainRoutes);
 
-server.use((req, res)=>{
-  res.render('pages/404')
-})
+// rota 404
+app.use((req, res) => {
+  res.status(404).render("pages/404");
+});
 
-server.listen(process.env.PORT);
+// exporta o app (necessário p/ vercel)
+export default app;
+
+// só roda o listen localmente
+if (process.env.NODE_ENV !== "production") {
+  app.listen(process.env.PORT || 3000, () => {
+    console.log("Servidor rodando na porta " + (process.env.PORT || 3000));
+  });
+}

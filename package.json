@@ -12,17 +12,17 @@
   },
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "engines": {
     "node": "20.x"
   },
-  "scripts": {
-    "start": "node dist/server.js",
-    "postinstall": "tsc && copyfiles -u 1 src/**/*.mustache dist/",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start-dev": "nodemon -e ts,json,mustache src/server.ts"
-  },
+"scripts": {
+  "dev": "nodemon -e ts,json,mustache src/server.ts",
+  "build": "tsc && copyfiles -u 1 src/**/*.mustache dist/",
+  "start": "node dist/server.js",
+  "vercel-build": "tsc && copyfiles -u 1 src/**/*.mustache dist/"
+},
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
