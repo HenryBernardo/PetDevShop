@@ -2,7 +2,7 @@
   "functions": {
     "api/index.ts": {
       "runtime": "nodejs18.x",
-      "includeFiles": ["src/views/**", "public/**"]
+      "includeFiles": "src/views/**,public/**"
     }
   },
   "rewrites": [
